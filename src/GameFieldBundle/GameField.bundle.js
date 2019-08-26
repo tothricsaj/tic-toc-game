@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 
 class GameField extends Component {
-    /*
-    constructor() {
-
+    constructor(props) {
+        super(props);
+        this.fieldNumbers = [1,2,3,4,5,6,8,9];
+        this.fields = this.fieldNumbers.map((num) => <li key={ num }></li> );
     }
-    */
 
     render() {
         return(
             <div>
-                Szevasz tavasz!!!!
+                <ul>
+                    { this.fields }
+                </ul>
             </div>
         );
     }
