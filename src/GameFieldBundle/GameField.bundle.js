@@ -7,13 +7,28 @@ class GameField extends Component {
         this.drawX = this.drawX.bind(this);
         this.fieldNumbers = [1,2,3,4,5,6,7,8,9];
         this.fields = this.fieldNumbers.map((num) => <li id={'field-' + num} onClick={(e) => this.drawX(num, e)} key={ num }></li> );
+        this.fieldState = [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0],
+        ];
     }
 
     drawX(num) {
         let elem = document.getElementById('field-' + num);
         let imgUrl = process.env.PUBLIC_URL + '/cross.png';
+
         elem.style.backgroundImage = `url(${imgUrl})`;
-        console.log(process.env.PUBLIC_URL + 'cross.png');
+
+        if(num <= 3) {
+            this.fieldState[0][num - 1] = 1;
+        } else if(num >= 4 && num <= 6) {
+            this.fieldState[1][num - 4] = 1;
+        } else {
+            this.fieldState[2][num - 7] = 1;
+        }
+
+        console.log(this.fieldState);
     }
 
     render() {
