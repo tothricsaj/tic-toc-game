@@ -17,6 +17,7 @@ class GameField extends Component {
     drawX(num) {
         let elem = document.getElementById('field-' + num);
         let imgUrl = process.env.PUBLIC_URL + '/cross.png';
+        let searchField = true;
 
         elem.style.backgroundImage = `url(${imgUrl})`;
 
@@ -29,6 +30,18 @@ class GameField extends Component {
         }
 
         console.log(this.fieldState);
+
+        while(searchField) {
+            let x = Math.floor(Math.random() * 3);
+            let y = Math.floor(Math.random() * 3);
+
+            if(this.fieldState[x][y] !== 0) {
+                continue;
+            }
+
+            this.fieldState[x][y] = -1;
+            searchField = false;
+        }
     }
 
     render() {
