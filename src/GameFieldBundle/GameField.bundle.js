@@ -34,10 +34,23 @@ class GameField extends Component {
         while(searchField) {
             let x = Math.floor(Math.random() * 3);
             let y = Math.floor(Math.random() * 3);
+            let fieldKey = x + y;
+            let circField;
 
             if(this.fieldState[x][y] !== 0) {
                 continue;
             }
+
+            if (x === 0) {
+                fieldKey =+ 1;
+            } else if (x === 1) {
+                fieldKey += 3;
+            } else if (x === 2) {
+                fieldKey += 5;
+            }
+
+            circField = document.getElementById('field-' + fieldKey);
+            circField.style.backgroundImage = `url(${process.env.PUBLIC_URL + '/circle.png'})`;
 
             this.fieldState[x][y] = -1;
             searchField = false;
