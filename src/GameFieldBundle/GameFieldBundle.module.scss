@@ -17,6 +17,10 @@
   li {
     width: calc(33.33% - 2px);
     height: 33.33%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
 
     &:nth-of-type(3n-1) {
       border-left: 1px solid black;
