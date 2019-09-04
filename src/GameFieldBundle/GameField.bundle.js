@@ -5,9 +5,8 @@ class GameField extends Component {
     constructor(props) {
         super(props);
         this.drawX = this.drawX.bind(this);
-        this.checkTheWinner = this.checkTheWinner.bind(this);
-        this.cross = 0;
-        this.circle = 0;
+        this.cross = false;
+        this.circle = false;
         this.fieldNumbers = [1,2,3,4,5,6,7,8,9];
         this.fields = this.fieldNumbers.map((num) => <li id={'field-' + num} onClick={(e) => this.drawX(num, e)} key={ num }></li> );
         this.fieldState = [
@@ -59,30 +58,43 @@ class GameField extends Component {
             searchField = false;
         }
 
-        console.log(this.checkTheWinner());
-    }
+       if(
+           // rows
+           this.fieldState[0][0] === 1 && this.fieldState[0][1] === 1 && this.fieldState[0][2] === 1 ||
+           this.fieldState[1][0] === 1 && this.fieldState[1][1] === 1 && this.fieldState[1][2] === 1 ||
+           this.fieldState[2][0] === 1 && this.fieldState[2][1] === 1 && this.fieldState[2][2] === 1 ||
+           // columns
+           this.fieldState[0][0] === 1 && this.fieldState[1][0] === 1 && this.fieldState[2][0] === 1 ||
+           this.fieldState[0][1] === 1 && this.fieldState[1][1] === 1 && this.fieldState[2][1] === 1 ||
+           this.fieldState[0][2] === 1 && this.fieldState[1][2] === 1 && this.fieldState[2][2] === 1 ||
+           // cross left-to-right
+           this.fieldState[0][0] === 1 && this.fieldState[1][1] === 1 && this.fieldState[2][2] === 1 ||
+           this.fieldState[0][2] === 1 && this.fieldState[1][1] === 1 && this.fieldState[2][0] === 1
+       ) {
+           this.cross = true;
+       } else if(
+           // rows
+           this.fieldState[0][0] === -1 && this.fieldState[0][1] === -1 && this.fieldState[0][2] === -1 ||
+           this.fieldState[1][0] === -1 && this.fieldState[1][1] === -1 && this.fieldState[1][2] === -1 ||
+           this.fieldState[2][0] === -1 && this.fieldState[2][1] === -1 && this.fieldState[2][2] === -1 ||
+           // columns
+           this.fieldState[0][0] === -1 && this.fieldState[1][0] === -1 && this.fieldState[2][0] === -1 ||
+           this.fieldState[0][1] === -1 && this.fieldState[1][1] === -1 && this.fieldState[2][1] === -1 ||
+           this.fieldState[0][2] === -1 && this.fieldState[1][2] === -1 && this.fieldState[2][2] === -1 ||
+           // cross left-to-right
+           this.fieldState[0][0] === -1 && this.fieldState[1][1] === -1 && this.fieldState[2][2] === -1 ||
+           this.fieldState[0][2] === -1 && this.fieldState[1][1] === -1 && this.fieldState[2][0] === -1
+       ) {
+           this.circle = true;
+       }
 
-    checkTheWinner() {
+       if (this.cross) {
+           console.log('%cCross is the winner', 'color: orange;');
+       } else if(this.circle) {
+           console.log('%cCircle is the winner', 'color: green;');
+       }
 
-        let fstRow = () => {
-            // TODO Just the this.fieldState[0] must be check due to check of the first row
-            for(let i=0; this.fieldState.length; i++) {
-                for(let n=0; this.fieldState[i].length; n++) {
-                    console.log(`This is the field checker ${this.fieldState[i][n]}`);
-                    if(this.fieldState[i][n] === 1) {
-                       this.cross++ ;
-                    } else if (this.fieldState[i][n] === -1) {
-                        this.circle++;
-                    }
-                }
-            }
-            return this.cross === 3 || this.circle === 3;
-
-
-        };
-        console.log(`Results cross->${this.cross} circle->${this.circle}`);
-        return fstRow();
-
+        // console.log(`Results cross->${this.cross} circle->${this.circle}`);
     }
 
     render() {
