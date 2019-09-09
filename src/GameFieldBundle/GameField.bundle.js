@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import style from './GameFieldBundle.module.scss';
+import WinnerModal from "../WinnerModalBundle/WinnerModal.bundle";
 
 class GameField extends Component {
     constructor(props) {
         super(props);
         this.drawX = this.drawX.bind(this);
-        this.cross = false;
-        this.circle = false;
+        this.state = {
+            cross: false,
+            circle: false,
+        };
         this.fieldNumbers = [1,2,3,4,5,6,7,8,9];
         this.fields = this.fieldNumbers.map((num) => <li id={'field-' + num} onClick={(e) => this.drawX(num, e)} key={ num }></li> );
         this.fieldState = [
@@ -71,7 +74,7 @@ class GameField extends Component {
            this.fieldState[0][0] === 1 && this.fieldState[1][1] === 1 && this.fieldState[2][2] === 1 ||
            this.fieldState[0][2] === 1 && this.fieldState[1][1] === 1 && this.fieldState[2][0] === 1
        ) {
-           this.cross = true;
+           this.setState({cross: true});
        } else if(
            // rows
            this.fieldState[0][0] === -1 && this.fieldState[0][1] === -1 && this.fieldState[0][2] === -1 ||
@@ -85,12 +88,12 @@ class GameField extends Component {
            this.fieldState[0][0] === -1 && this.fieldState[1][1] === -1 && this.fieldState[2][2] === -1 ||
            this.fieldState[0][2] === -1 && this.fieldState[1][1] === -1 && this.fieldState[2][0] === -1
        ) {
-           this.circle = true;
+           this.setState({circle: true});
        }
 
-       if (this.cross) {
+       if (this.state.cross) {
            console.log('%cCross is the winner', 'color: orange;');
-       } else if(this.circle) {
+       } else if(this.state.circle) {
            console.log('%cCircle is the winner', 'color: green;');
        }
 
@@ -98,8 +101,17 @@ class GameField extends Component {
     }
 
     render() {
+        let winnerModal = 'nana';
+
+        if(this.state.cross) {
+            winnerModal = <WinnerModal winner={'Cross'} />;
+        } else if(this.state.circle) {
+            winnerModal = <WinnerModal winner={'Circle'} />;
+        }
+
         return(
             <div>
+                { winnerModal }
                 <ul className={ style.fieldWrapper }>
                     { this.fields }
                 </ul>
